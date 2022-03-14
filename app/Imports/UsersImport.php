@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Validators\Failure;
@@ -20,7 +21,8 @@ class UsersImport implements
     WithHeadingRow,
     SkipsOnError,
     WithValidation,
-    SkipsOnFailure
+    SkipsOnFailure,
+    WithBatchInserts
 {
     use Importable,
         SkipsErrors,
@@ -60,4 +62,8 @@ class UsersImport implements
 //        return back()->withStatus()
 //    }
 
+    public function batchSize(): int
+    {
+        return 1000;
+    }
 }
