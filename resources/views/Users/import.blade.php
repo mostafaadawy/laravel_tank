@@ -19,6 +19,32 @@
                                 @endforeach
                             </div>
                         @endif
+                        @if(session()->has('failures'))
+                            <table class="table table-danger">
+                                <tr>
+                                    <th>Row</th>
+                                    <th>Atrr</th>
+                                    <th>Err</th>
+                                    <th>Val</th>
+                                </tr>
+                                @foreach(session()->get('failures') as $item)
+                                    <tr>
+                                        <td>{{$item->row()}}</td>
+                                        <td>{{$item->attribute()}}</td>
+                                        <td>
+                                            <ul>
+                                                @foreach($item->errors() as $it)
+                                                    <li>{{$it}}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td>{{$item->values()[$item->attribute()]}}</td>
+                                    </tr>
+                                @endforeach
+
+                            </table>
+                            </div>
+                        @endif
                         <form action="/users/import" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
