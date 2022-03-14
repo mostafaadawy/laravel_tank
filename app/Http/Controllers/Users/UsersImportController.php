@@ -11,8 +11,9 @@ class UsersImportController extends Controller
     {
         return view('users.import');
     }
-    public function store()
+    public function store(Request $request)
     {
-        return view('users.import');
+        $file=$request->file('file');
+        dd($file);
     }
 }
