@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Users\UsersImportController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 
@@ -19,8 +20,14 @@ Route::get('/', function () {
 });
 //Users routes
 Route::group(
-    ['namespace' => 'Users', 'prefix' => 'users', 'as' => 'usesr.', 'middleware' => []],
+    ['namespace' => 'Users', 'prefix' => 'users', 'as' => 'users.', 'middleware' => []],
     function () {
         Route::get('/', function (){return view('Users.home');});
+        Route::get('/import', [UsersImportController::class,'show']);
+        Route::post('/import',[UsersImportController::class,'store']);
     }
 );
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
