@@ -9,9 +9,10 @@ use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 use Throwable;
 
-class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
+class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidation
 {
     use Importable,
         SkipsErrors;
@@ -38,4 +39,10 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
 //    {
 //        // TODO: Implement onError() method.
 //    }
+    public function rules(): array
+    {
+        return[
+            '*.email'=>['email', 'unique:users,email']
+        ];
+    }
 }

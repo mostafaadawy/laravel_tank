@@ -12,6 +12,13 @@
                                 {{ session('status')  }}
                             </div>
                         @endif
+                        @if(isset($errors)&& $errors->any())
+                            <div class="alert alert-danger">
+                                @foreach($errors->all() as $item)
+                                    {{ $item }}
+                                @endforeach
+                            </div>
+                        @endif
                         <form action="/users/import" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
