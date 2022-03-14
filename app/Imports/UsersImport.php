@@ -5,10 +5,12 @@ namespace App\Imports;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Throwable;
 
-class UsersImport implements ToModel, WithHeadingRow
+class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
 {
     use Importable;
     /**
@@ -28,5 +30,10 @@ class UsersImport implements ToModel, WithHeadingRow
             'email'=> $row['email'],
             'password'=> Hash::make('password')
         ]);
+    }
+
+    public function onError(Throwable $e)
+    {
+        // TODO: Implement onError() method.
     }
 }
