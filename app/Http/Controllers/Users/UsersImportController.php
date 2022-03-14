@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Imports\UsersImport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UsersImportController extends Controller
 {
@@ -14,6 +16,7 @@ class UsersImportController extends Controller
     public function store(Request $request)
     {
         $file=$request->file('file');
-        dd($file);
+        Excel::import(new UsersImport,$file);
+        return back()->withStatus('Excel File imported Successfully');
     }
 }
