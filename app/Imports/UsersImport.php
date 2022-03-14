@@ -4,12 +4,14 @@ namespace App\Imports;
 
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -19,35 +21,30 @@ use Maatwebsite\Excel\Validators\Failure;
 use Throwable;
 
 class UsersImport implements
-    ToModel,
+    ToCollection,
     WithHeadingRow,
     SkipsOnError,
     WithValidation,
     SkipsOnFailure,
-    WithBatchInserts,
     WithChunkReading,
     ShouldQueue
 {
     use Importable,
         SkipsErrors,
         SkipsFailures;
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-    public function model(array $row)
+
+    public function collection(Collection $rows)
     {
-//        return new User([
-//            'name' => $row[0],
-//            'email'=> $row[1],
-//            'password'=> Hash::make('password')
-//        ]);
-        return new User([
-            'name' => $row['name'],
-            'email'=> $row['email'],
-            'password'=> Hash::make('password')
-        ]);
+        foreach ($rows as $row){
+            $user=User::create([
+                'name' => $row['name'],
+                'email'=> $row['email'],
+                'password'=> Hash::make('password')
+            ]);
+            $user->address()->create([
+                'country' => $row['country']
+            ]);
+        }
     }
 
 //    public function onError(Throwable $e)
@@ -63,13 +60,9 @@ class UsersImport implements
 
 //    public function onFailure(Failure ...$failures)
 //    {
-//        return back()->withStatus()
+//        return back()->withFailures($failures);
 //    }
 
-    public function batchSize(): int
-    {
-        return 1000;
-    }
 
     public function chunkSize(): int
     {
