@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//Users routes
+Route::group(
+    ['namespace' => 'Users', 'prefix' => 'users', 'as' => 'usesr.', 'middleware' => []],
+    function () {
+        Route::get('/', function (){return view('Users.home');});
+    }
+);
