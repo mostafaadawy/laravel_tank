@@ -12,7 +12,7 @@
                                 {{ session('status')  }}
                             </div>
                         @endif
-                        <form action="import" method="post" enctype="multipart/form-data">
+                        <form action="/users/import" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <input type="file" name="file"/>

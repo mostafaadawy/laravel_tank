@@ -4,10 +4,12 @@ namespace App\Imports;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class UsersImport implements ToModel
 {
+    use Importable;
     /**
     * @param array $row
     *
