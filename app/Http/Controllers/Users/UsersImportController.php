@@ -27,6 +27,6 @@ class UsersImportController extends Controller
         if($import->failures()->isNotEmpty()){
             return back()->withFailures($import->failures());
         }
-        return back()->withStatus('Excel File imported Successfully');
+        return back()->withStatus('import is in queue will be notified after importing');
     }
 }
