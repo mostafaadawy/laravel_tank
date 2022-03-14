@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -12,7 +13,8 @@ use Throwable;
 
 class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
 {
-    use Importable;
+    use Importable,
+        SkipsErrors;
     /**
     * @param array $row
     *
@@ -32,8 +34,8 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError
         ]);
     }
 
-    public function onError(Throwable $e)
-    {
-        // TODO: Implement onError() method.
-    }
+//    public function onError(Throwable $e)
+//    {
+//        // TODO: Implement onError() method.
+//    }
 }
