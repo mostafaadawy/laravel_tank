@@ -84,12 +84,6 @@ class ProductsUpdate  implements
     //                          }
                     } elseif ($index == 5) {
                         $barcodes = explode(';', $cell);
-    //                        $product->barcodes()->delete();
-    //                        if (count($barcodes) > 0) {
-    //                            foreach ($barcodes as $barcode) {
-    //                                ProductBarcode::create(['barcode' => $barcode,'product_id' => $product->id]);
-    //                            }
-    //                        }
                     } elseif ($index == 6) {
                         $CustomTr=array_merge($CustomTr,['en'=>['name'=>$cell]]);
                     } elseif ($index == 7) {
@@ -105,7 +99,7 @@ class ProductsUpdate  implements
                                     } else {
                                         $q = ['branchId' => $item->branchId, 'Prices' => ['newPrice' => $item->newPrice]];
                                     }
-                                    $CustomCol=array_merge($CustomCol, $q);
+                                    array_push($CustomCol, $q);
                                 }
                             }
                         }
@@ -134,10 +128,7 @@ class ProductsUpdate  implements
                         $barcodes=array();
                         break;
                     }
-                    elseif ($index==5)
-                    {
-                        //$product->barcodes()->delete();
-                    }
+
                 }
                 $index++;
             }
@@ -154,14 +145,35 @@ class ProductsUpdate  implements
                 $CustomCol=array();
             }
         }
+
         foreach ($CustomArray as $item){
             $product=Product::find($item['id']);
+                // update product
                 if($product){
                     $product->update($item['product_columns']);
                 }
+                // update barcode
+//                $product->barcodes()->delete();
+//                if (count($item['update_barcodes']) > 0) {
+//                    foreach ($item['update_barcodes'] as $barcode) {
+//                        ProductBarcode::create(['barcode' => $barcode,'product_id' => $item['id']]);
+//                    }
+//                }
+                // update branches
+//                if (count($item['update_branches']) > 0){
+//                    foreach ($item['update_branches'] as $branch){
+//                        $product->updateBranches()->detach($branch['branchId'],$branch['Prices']);
+//                        $product->updateBranches()->attach($branch['branchId'],$branch['Prices']);
+//                    }
+//
+//                }
+                // update Translation
+//                  if (count($item['Tr']) > 0)$product->update($item['Tr']);
+
         }
 
     }
+
 //    public function onFailure(Failure ...$failures)
 //    {
 //        return back()->withFailures($failures);
