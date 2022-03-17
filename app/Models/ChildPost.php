@@ -5,11 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Address extends Model
+class ChildPost extends Post
 {
-    use HasFactory;
-    protected $fillable = [
-        'user_id',
-        'country',
-    ];
+    protected $table = 'posts';
+    protected $translationForeignKey = 'post_id';
 }

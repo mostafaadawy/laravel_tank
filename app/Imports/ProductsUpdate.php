@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Post;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -39,7 +40,7 @@ class ProductsUpdate  implements
             $CustomTr=array();
             $barcodes=array();
             foreach ($row as $cell) {
-                if (isset($cell)) {
+                if (isset($cell)&&$cell!='false') {
                     if ($index == 0) {
                         $product = Product::where('lineItemId', $cell)->first();
                         if(!$product){
@@ -147,6 +148,7 @@ class ProductsUpdate  implements
         }
 
         foreach ($CustomArray as $item){
+
             $product=Product::find($item['id']);
                 // update product
                 if($product){
@@ -169,7 +171,12 @@ class ProductsUpdate  implements
 //                }
                 // update Translation
 //                  if (count($item['Tr']) > 0)$product->update($item['Tr']);
-
+            dd($item['Tr']);
+            $data = [
+                'en' => ['title' => 'EnEnEnEnEn','content' => 'EnEnEnEnEn'],
+                'ar' => ['title' => 'ArArArArAr','content' => 'ArArArArAr'],
+            ];
+            $post = Post::find(1)->update($data);
         }
 
     }
