@@ -37,7 +37,8 @@ class ProductsUpdate  implements
             $product="";
             $prod_id="";
             $CustomRecord=array();
-            $CustomTr=array();
+            $CustomTrEn=array();
+            $CustomTrAr=array();
             $barcodes=array();
             foreach ($row as $cell) {
                 if (isset($cell)&&$cell!='false') {
@@ -86,9 +87,9 @@ class ProductsUpdate  implements
                     } elseif ($index == 5) {
                         $barcodes = explode(';', $cell);
                     } elseif ($index == 6) {
-                        $CustomTr=array_merge($CustomTr,['en'=>['name'=>$cell]]);
+                        $CustomTrEn=array_merge($CustomTrEn,['name'=>$cell]);
                     } elseif ($index == 7) {
-                        $CustomTr=array_merge($CustomTr,['ar'=>['name'=>$cell]]);
+                        $CustomTrAr=array_merge($CustomTrAr,['name'=>$cell]);
                     } elseif ($index == 8) {
                         $CustomRecord=array_merge($CustomRecord,['unit'=> 'kg']);//for test real $cell
                     } elseif ($index == 9) {
@@ -108,18 +109,18 @@ class ProductsUpdate  implements
                     elseif ($index == 10) $CustomRecord=array_merge($CustomRecord,['old_price'=> $cell]);
                     elseif ($index == 11) $CustomRecord=array_merge($CustomRecord,['final_price'=> $cell]);
                     elseif ($index == 12) $CustomRecord=array_merge($CustomRecord,['available'=> $cell]);
-                    elseif ($index == 13) $CustomTr=array_merge($CustomTr,['en'=>['description'=>$cell]]);
-                    elseif ($index == 14) $CustomTr=array_merge($CustomTr,['ar'=>['description'=>$cell]]);
-                    elseif ($index == 15) $CustomTr=array_merge($CustomTr,['en'=>['feature1'=>$cell]]);
-                    elseif ($index == 16) $CustomTr=array_merge($CustomTr,['ar'=>['feature1'=>$cell]]);
-                    elseif ($index == 17) $CustomTr=array_merge($CustomTr,['en'=>['feature2'=>$cell]]);
-                    elseif ($index == 18) $CustomTr=array_merge($CustomTr,['ar'=>['feature2'=>$cell]]);
-                    elseif ($index == 19) $CustomTr=array_merge($CustomTr,['en'=>['feature3'=>$cell]]);
-                    elseif ($index == 20) $CustomTr=array_merge($CustomTr,['ar'=>['feature3'=>$cell]]);
-                    elseif ($index == 21) $CustomTr=array_merge($CustomTr,['en'=>['feature4'=>$cell]]);
-                    elseif ($index == 22) $CustomTr=array_merge($CustomTr,['ar'=>['feature4'=>$cell]]);
-                    elseif ($index == 23) $CustomTr=array_merge($CustomTr,['en'=>['keywords'=>$cell]]);
-                    elseif ($index == 24) $CustomTr=array_merge($CustomTr,['ar'=>['keywords'=>$cell]]);
+                    elseif ($index == 13) $CustomTrEn=array_merge($CustomTrEn,['description'=>$cell]);
+                    elseif ($index == 14) $CustomTrAr=array_merge($CustomTrAr,['description'=>$cell]);
+                    elseif ($index == 15) $CustomTrEn=array_merge($CustomTrEn,['feature1'=>$cell]);
+                    elseif ($index == 16) $CustomTrAr=array_merge($CustomTrAr,['feature1'=>$cell]);
+                    elseif ($index == 17) $CustomTrEn=array_merge($CustomTrEn,['feature2'=>$cell]);
+                    elseif ($index == 18) $CustomTrAr=array_merge($CustomTrAr,['feature2'=>$cell]);
+                    elseif ($index == 19) $CustomTrEn=array_merge($CustomTrEn,['feature3'=>$cell]);
+                    elseif ($index == 20) $CustomTrAr=array_merge($CustomTrAr,['feature3'=>$cell]);
+                    elseif ($index == 21) $CustomTrEn=array_merge($CustomTrEn,['feature4'=>$cell]);
+                    elseif ($index == 22) $CustomTrAr=array_merge($CustomTrAr,['feature4'=>$cell]);
+                    elseif ($index == 23) $CustomTrEn=array_merge($CustomTrEn,['keywords'=>$cell]);
+                    elseif ($index == 24) $CustomTrAr=array_merge($CustomTrAr,['keywords'=>$cell]);
                 }
                 else{
                     if($index<4) {
@@ -140,9 +141,10 @@ class ProductsUpdate  implements
                 $CustomCol=array();
             }
             else {
-                array_push($CustomArray, ['id'=>$prod_id,'product_columns'=>$CustomRecord,'Tr'=>$CustomTr, 'update_barcodes'=>$barcodes,'update_branches'=>$CustomCol]);
+                array_push($CustomArray, ['id'=>$prod_id,'product_columns'=>$CustomRecord,'Tr'=>['en'=>$CustomTrEn, 'ar'=>$CustomTrAr], 'update_barcodes'=>$barcodes,'update_branches'=>$CustomCol]);
                 $CustomRecord=array();
-                $CustomTr=array();
+                $CustomTrEn=array();
+                $CustomTrAr=array();
                 $CustomCol=array();
             }
         }
@@ -170,13 +172,12 @@ class ProductsUpdate  implements
 //
 //                }
                 // update Translation
-//                  if (count($item['Tr']) > 0)$product->update($item['Tr']);
-            dd($item['Tr']);
+                //  if (count($item['Tr']) > 0)$product->update($item['Tr']);
             $data = [
                 'en' => ['title' => 'EnEnEnEnEn','content' => 'EnEnEnEnEn'],
                 'ar' => ['title' => 'ArArArArAr','content' => 'ArArArArAr'],
             ];
-            $post = Post::find(1)->update($data);
+            Post::find(1)->update($item['Tr']);
         }
 
     }
