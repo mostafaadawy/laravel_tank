@@ -149,6 +149,11 @@ class ProductsUpdate  implements
             }
         }
 
+        Product::whereNotIn('id', array_column($CustomArray,'id'))->update([
+            'available' => 0
+        ]);
+
+        //ProductBranch::whereNotIn('product_id',array_column($CustomArray,'id'))->delete();
         foreach ($CustomArray as $item){
 
             $product=Product::find($item['id']);
@@ -177,7 +182,8 @@ class ProductsUpdate  implements
                 'en' => ['title' => 'EnEnEnEnEn','content' => 'EnEnEnEnEn'],
                 'ar' => ['title' => 'ArArArArAr','content' => 'ArArArArAr'],
             ];
-            Post::find(1)->update($item['Tr']);
+            $post=Post::find(1);
+            if($post)$post->update($item['Tr']);
         }
 
     }
